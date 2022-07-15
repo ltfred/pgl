@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pgl"
+version = "0.1.0"
+description = ""
+authors = ["liutao"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.3"
+toml = "^0.10.2"
+python-gitlab = "^3.6.0"
+prompt-toolkit = "^3.0.30"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
