@@ -1,11 +1,11 @@
-import click
-
 from cmd.pgl import PGL
+
+import click
 
 
 @click.group()
 def pgl():
-    pass
+    """Root cmd"""
 
 
 @pgl.command()

@@ -34,12 +34,15 @@ class Config:
     def __init__(self):
         self.token = None
         self.base_url = None
+        self.name = None
+        self.email = None
         self.home = os.environ["HOME"]
         self.config_file_path = os.path.join(self.home, ".config", "pgl", "config.toml")
         self.project_file_path = os.path.join(self.home, ".config", "pgl", ".projects")
         self.check_config_file()
 
     def setup(self):
+        """Setup config"""
         config = toml.load(self.config_file_path)
         self.base_url = config.get("base_url", "")
         if self.base_url == "":
@@ -49,9 +52,11 @@ class Config:
         self.token = config.get("token", "")
         if self.token == "":
             output("Set Gitlab token first, use `lab config.`")
-        self.check_project_file()
+        self.name = config.get("name", "")
+        self.email = config.get("email", "")
 
     def create_config_file(self):
+        """Create config file"""
         lab_dir = os.path.join(self.home, ".config", "pgl")
         if not os.path.isdir(lab_dir):
             os.makedirs(lab_dir)
@@ -59,20 +64,16 @@ class Config:
             writer.write(CONFIG_CONTENT)
 
     def check_config_file(self):
+        """Check config file"""
         if not os.path.isfile(self.config_file_path):
             self.create_config_file()
 
-    def check_project_file(self):
-        if not os.path.isfile(self.project_file_path):
-            self.create_project_file()
-
     def read_project_file(self):
+        """Read projects"""
         with open(self.project_file_path, "rb") as file:
             return pickle.load(file)
 
     def write_project_file(self, path_with_namespace):
+        """Write projects"""
         with open(self.project_file_path, "wb") as file:
             pickle.dump(path_with_namespace, file)
-
-    def create_project_file(self):
-        open(self.project_file_path, "w").close()
