@@ -66,7 +66,7 @@ class PGL:
         url = project[0]["ssh_url_to_repo"]
         os.system("git clone " + url)
         if self.cf.name != "":
-            os.chdir(f"./{project}")
+            os.chdir(f"./{project[0]['name']}")
             os.system(f"git config user.name {self.cf.name}")
             if self.cf.email != "":
                 os.system(f"git config user.email {self.cf.email}")
