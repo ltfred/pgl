@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/ltfred/pgl?style=flat-square)
 
 ## Install
-1. Click [release](https://github.com/ltfred/pgl/releases/download/v0.0.1/pgl-0.0.1.tar.gz) download package.
+1. Click [release](https://github.com/ltfred/pgl/releases) download latest package.
 2. `pip install <package_name>`
 
 ## Use
