@@ -12,9 +12,9 @@ base_url = ""
 # gitlab access token
 token = ""
 
-# gitlab projects file
-# default $HOME/lab/projects
-projects = ""
+# gitlab project_dir
+# default ./
+project_dir = ""
 
 # If set, lab clone will auto set user.name in repo gitconfig
 # default empty
@@ -26,6 +26,7 @@ email = ""
 """
 
 
+# pylint: disable=too-many-instance-attributes
 class Config:
     """
     Config Class
@@ -36,6 +37,7 @@ class Config:
         self.base_url = None
         self.name = None
         self.email = None
+        self.project_dir = None
         self.home = os.environ["HOME"]
         self.config_file_path = os.path.join(self.home, ".config", "pgl", "config.toml")
         self.project_file_path = os.path.join(self.home, ".config", "pgl", ".projects")
@@ -54,6 +56,7 @@ class Config:
             output("Set Gitlab token first, use `lab config.`")
         self.name = config.get("name", "")
         self.email = config.get("email", "")
+        self.project_dir = config.get("project_dir", "")
 
     def create_config_file(self):
         """Create config file"""

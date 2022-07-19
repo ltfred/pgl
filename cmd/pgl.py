@@ -64,10 +64,11 @@ class PGL:
         if len(project) == 0:
             output("Not find project!")
         url = project[0]["ssh_url_to_repo"]
-        os.system("git clone " + url)
+        project_dir = self.cf.project_dir if self.cf.project_dir else "./"
+        os.system("git clone " + url + f" {project_dir}")
+        os.chdir(f"./{project[0]['name']}")
         if self.cf.name != "":
-            os.chdir(f"./{project[0]['name']}")
             os.system(f"git config user.name {self.cf.name}")
-            if self.cf.email != "":
-                os.system(f"git config user.email {self.cf.email}")
+        if self.cf.email != "":
+            os.system(f"git config user.email {self.cf.email}")
         sys.exit()
