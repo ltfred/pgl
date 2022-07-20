@@ -56,9 +56,7 @@ class PGL:
     def clone(self):
         """Clone project"""
         self.cf.setup()
-        projects = self.cf.read_project_file()
-        projects_completer = WordCompleter(projects, ignore_case=True, WORD=True, match_middle=True)
-        project = prompt_toolkit.prompt("Enter or choose a project: ", completer=projects_completer)
+        project = self.prompt()
         lab = Lab(self.cf.base_url, self.cf.token)
         project = lab.search_project(project.split("/")[-1])
         if len(project) == 0:
@@ -71,4 +69,17 @@ class PGL:
             os.system(f"git config user.name {self.cf.name}")
         if self.cf.email != "":
             os.system(f"git config user.email {self.cf.email}")
+        sys.exit()
+
+    def prompt(self):
+        """Project prompt"""
+        projects = self.cf.read_project_file()
+        projects_completer = WordCompleter(projects, ignore_case=True, WORD=True, match_middle=True)
+        return prompt_toolkit.prompt("Enter or choose a project: ", completer=projects_completer)
+
+    def browser(self):
+        """Open project in browser"""
+        self.cf.setup()
+        project = self.prompt()
+        click.launch(self.cf.base_url + project)
         sys.exit()

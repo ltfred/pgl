@@ -30,3 +30,9 @@ def sync():
 def clone():
     """Clone project"""
     PGL().clone()
+
+
+@pgl.command()
+def browser():
+    """Open project in browser"""
+    PGL().browser()

@@ -51,6 +51,8 @@ class Config:
             output("Set Gitlab base url first, use `pgl config.`")
         if not self.base_url.startswith("http"):
             self.base_url = "https://" + self.base_url
+        if not self.base_url.endswith("/"):
+            self.base_url = self.base_url + "/"
         self.token = config.get("token", "")
         if self.token == "":
             output("Set Gitlab token first, use `lab config.`")
