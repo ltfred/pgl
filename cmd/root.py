@@ -33,6 +33,7 @@ def clone():
 
 
 @pgl.command()
-def browser():
-    """Open project in browser"""
-    PGL().browser()
+@click.option("-p", "pipeline", is_flag=True, help="Open project pipelines in web browser")
+def browser(pipeline):
+    """Open project in web browser"""
+    PGL().browser(pipeline)

@@ -37,6 +37,7 @@ class PGL:
         """Sync projects"""
         self.cf.setup()
         lab = Lab(self.cf.base_url, self.cf.token)
+        click.echo("Syncing......")
         groups = lab.groups()
         projects = []
         tasks = [self.get_projects_by_group(lab, i, projects) for i in groups]
@@ -77,9 +78,12 @@ class PGL:
         projects_completer = WordCompleter(projects, ignore_case=True, WORD=True, match_middle=True)
         return prompt_toolkit.prompt("Enter or choose a project: ", completer=projects_completer)
 
-    def browser(self):
+    def browser(self, pipeline):
         """Open project in browser"""
         self.cf.setup()
         project = self.prompt()
-        click.launch(self.cf.base_url + project)
+        url = self.cf.base_url + project
+        if pipeline:
+            url = url + "/-/pipelines"
+        click.launch(url)
         sys.exit()
