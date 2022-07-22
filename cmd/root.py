@@ -1,23 +1,19 @@
 from cmd.pgl import PGL
 
+import cmd
 import click
 
 
 @click.group()
+@click.version_option(cmd.__version__, prog_name="pgl")
 def pgl():
-    """Root cmd"""
+    """Pgl is a cli tool, include some shortcut for gitlab"""
 
 
 @pgl.command()
 def config():
     """Edit config file"""
     PGL().config()
-
-
-@pgl.command()
-def version():
-    """Display version for pgl"""
-    PGL().version()
 
 
 @pgl.command()

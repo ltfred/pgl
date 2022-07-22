@@ -1,9 +1,10 @@
 import os
 import pickle
+import sys
 
+import click
 import toml
 
-from utils.display import output
 
 CONFIG_CONTENT = """
 # gitlab domain, like https://gitlab.com
@@ -16,11 +17,11 @@ token = ""
 # default ./
 project_dir = ""
 
-# If set, lab clone will auto set user.name in repo gitconfig
+# If set, pgl clone will auto set user.name in repo gitconfig
 # default empty
 name = ""
 
-# If set, lab clone will auto set user.email in repo gitconfig
+# If set, pgl clone will auto set user.email in repo gitconfig
 # default empty
 email = ""
 """
@@ -48,14 +49,16 @@ class Config:
         config = toml.load(self.config_file_path)
         self.base_url = config.get("base_url", "")
         if self.base_url == "":
-            output("Set Gitlab base url first, use `pgl config.`")
+            click.secho("Set Gitlab base url first, use `pgl config.`", fg="red")
+            sys.exit()
         if not self.base_url.startswith("http"):
             self.base_url = "https://" + self.base_url
         if not self.base_url.endswith("/"):
             self.base_url = self.base_url + "/"
         self.token = config.get("token", "")
         if self.token == "":
-            output("Set Gitlab token first, use `lab config.`")
+            click.secho("Set Gitlab token first, use `lab config.`", fg="red")
+            sys.exit()
         self.name = config.get("name", "")
         self.email = config.get("email", "")
         self.project_dir = config.get("project_dir", "")
