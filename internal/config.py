@@ -2,9 +2,9 @@ import os
 import pickle
 import sys
 
-import click
 import toml
 
+from utils import prompt
 
 CONFIG_CONTENT = """
 # gitlab domain, like https://gitlab.com
@@ -13,8 +13,8 @@ base_url = ""
 # gitlab access token
 token = ""
 
-# gitlab project_dir
-# default ./
+# if set, the cloned project will be saved to this directory 
+# The default is the current directory
 project_dir = ""
 
 # If set, pgl clone will auto set user.name in repo gitconfig
@@ -34,11 +34,7 @@ class Config:
     """
 
     def __init__(self):
-        self.token = None
-        self.base_url = None
-        self.name = None
-        self.email = None
-        self.project_dir = None
+        self.token = self.base_url = self.name = self.email = self.project_dir = None
         self.home = os.environ["HOME"]
         self.config_file_path = os.path.join(self.home, ".config", "pgl", "config.toml")
         self.project_file_path = os.path.join(self.home, ".config", "pgl", ".projects")
@@ -49,7 +45,7 @@ class Config:
         config = toml.load(self.config_file_path)
         self.base_url = config.get("base_url", "")
         if self.base_url == "":
-            click.secho("Set Gitlab base url first, use `pgl config.`", fg="red")
+            prompt.output("Set Gitlab base url first, use `pgl config.`", "red")
             sys.exit()
         if not self.base_url.startswith("http"):
             self.base_url = "https://" + self.base_url
@@ -57,7 +53,7 @@ class Config:
             self.base_url = self.base_url + "/"
         self.token = config.get("token", "")
         if self.token == "":
-            click.secho("Set Gitlab token first, use `lab config.`", fg="red")
+            prompt.output("Set Gitlab token first, use `lab config.`", "red")
             sys.exit()
         self.name = config.get("name", "")
         self.email = config.get("email", "")

@@ -3,8 +3,6 @@ import os
 import subprocess
 import sys
 
-from cmd import __version__
-
 import click
 import prompt_toolkit
 from prompt_toolkit.completion import WordCompleter
